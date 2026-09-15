@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FuelIQ | AI Fuel Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="theme-midnight">
+    <section class="landing-page" id="landingPage">
+      <div class="landing-shell">
+        <header class="landing-header">
+          <div class="brand mini-brand">
+            <div class="brand-mark">FI</div>
+            <div>
+              <p class="brand-label">Smart fleet</p>
+              <h2>FuelIQ</h2>
+            </div>
+          </div>
+          <button class="btn btn-secondary" id="openDashboardBtn">Sign in</button>
+        </header>
+
+        <div class="landing-hero">
+          <div class="landing-copy">
+            <span class="badge">Turn fuel data into smarter decisions</span>
+            <h1>Know where your fuel money is going.</h1>
+            <p>
+              FuelIQ transforms fleet, fuel, and operational data into intelligent decisions for transport companies,
+              logistics teams, fuel retailers, and modern vehicle operators.
+            </p>
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="getStartedBtn">Sign in to continue</button>
+              <button class="btn btn-secondary" id="exploreDemoBtn">View access</button>
+            </div>
+            <div class="hero-trust">
+              <span>Fleet analytics</span>
+              <span>AI intelligence</span>
+              <span>Budget forecasting</span>
+            </div>
+          </div>
+
+          <div class="landing-visual">
+            <div class="glass-panel">
+              <div class="mini-head">
+                <span>FuelIQ Intelligence</span>
+                <span class="status-chip positive">+8.4%</span>
+              </div>
+              <h3>Fleet fuel efficiency improved this month</h3>
+              <div class="sparkline">
+                <span style="height: 35%"></span>
+                <span style="height: 52%"></span>
+                <span style="height: 60%"></span>
+                <span style="height: 72%"></span>
+                <span style="height: 68%"></span>
+                <span style="height: 78%"></span>
+                <span style="height: 88%"></span>
+              </div>
+              <div class="insight-row">
+                <div>
+                  <small>Fuel cost</small>
+                  <strong>UGX 4.8M</strong>
+                </div>
+                <div>
+                  <small>Projected</small>
+                  <strong>UGX 4.4M</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="app-shell hidden" id="appShell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">FI</div>
+          <div>
+            <p class="brand-label">Smart fleet</p>
+            <h2>FuelIQ</h2>
+          </div>
+        </div>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <button class="nav-item active" data-section="dashboard">Overview</button>
+          <button class="nav-item" data-section="vehicles">Vehicles</button>
+          <button class="nav-item" data-section="fuel-logs">Fuel Log</button>
+          <button class="nav-item" data-section="trips">Trips</button>
+          <button class="nav-item" data-section="drivers">Drivers</button>
+          <button class="nav-item" data-section="intelligence">FuelIQ Intelligence</button>
+          <button class="nav-item" data-section="reports">Reports</button>
+          <button class="nav-item" data-section="budgets">Budgets</button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="card-label">Live monitoring</p>
+          <h3 id="sidebarAlertTitle">Fuel alerts</h3>
+          <p id="sidebarAlertText">Fuel consumption rules are monitoring every vehicle against its own baseline.</p>
+          <button class="btn btn-primary btn-small" id="investigateAlertBtn">Investigate</button>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Fleet intelligence</p>
+            <h1>FuelIQ Dashboard</h1>
+          </div>
+
+          <div class="topbar-actions">
+            <div class="search-wrap">
+              <input id="globalSearch" type="search" placeholder="Search vehicles, drivers, stations..." />
+            </div>
+            <div class="header-info">
+              <span class="status-dot"></span>
+              <span id="liveSyncText">Live local sync</span>
+              <time id="liveClock" datetime=""></time>
+            </div>
+            <div class="theme-switcher" aria-label="Theme studio">
+              <button class="theme-option active" data-theme="midnight" type="button">Midnight</button>
+              <button class="theme-option" data-theme="arctic" type="button">Arctic</button>
+              <button class="theme-option" data-theme="carbon" type="button">Carbon</button>
+              <button class="theme-option" data-theme="aurora" type="button">Aurora</button>
+            </div>
+            <button class="btn btn-secondary" id="exportBtn">Export</button>
+            <button class="btn btn-primary" data-open-modal="vehicleModal">Add vehicle</button>
+            <div class="user-pill">
+              <div class="avatar">AF</div>
+              <span>Admin</span>
+            </div>
+            <button class="btn btn-secondary" id="themeToggle">Theme</button>
+          </div>
+        </header>
+
+        <section id="dashboard" class="page-section active">
+          <div class="hero-panel">
+            <div class="hero-copy">
+              <span class="badge">Live operations</span>
+              <h2>Optimize every mile, litre and fuel decision.</h2>
+              <p>
+                Monitor fleet performance, detect unusual spending, and reduce operating costs with AI-powered fuel intelligence built for Ugandan logistics and transport operations.
+              </p>
+
+              <div class="hero-actions">
+                <button class="btn btn-primary" data-open-modal="fuelModal">Add fuel log</button>
+                <button class="btn btn-secondary" id="generateReportBtn">Generate report</button>
+              </div>
+            </div>
+
+            <div class="hero-visual">
+              <div class="metric-card">
+                <span>Efficiency score</span>
+                <strong>91.6%</strong>
+                <small>+6.2% vs last month</small>
+              </div>
+
+              <div class="mini-chart" aria-label="fuel efficiency chart">
+                <span style="height: 35%"></span>
+                <span style="height: 52%"></span>
+                <span style="height: 60%"></span>
+                <span style="height: 45%"></span>
+                <span style="height: 72%"></span>
+                <span style="height: 82%"></span>
+                <span style="height: 96%"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-grid" aria-label="Key performance summary">
+            <article class="stat-card">
+              <span>Total fuel consumed</span>
+              <strong id="totalFuelValue">0 L</strong>
+              <small>Fleet total</small>
+            </article>
+
+            <article class="stat-card highlight">
+              <span>Total fuel expenditure</span>
+              <strong id="totalSpendValue">UGX 0</strong>
+              <small>Current period</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Average fuel price</span>
+              <strong id="avgPriceValue">UGX 0</strong>
+              <small>Per litre</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Average fuel economy</span>
+              <strong id="avgEconomyValue">0 km/L</strong>
+              <small>Fleet average</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Total distance travelled</span>
+              <strong id="distanceValue">0 km</strong>
+              <small>Across all vehicles</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Vehicles</span>
+              <strong id="vehiclesValue">0</strong>
+              <small>Registered units</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Active drivers</span>
+              <strong id="driversValue">0</strong>
+              <small>Assigned drivers</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Monthly fuel cost</span>
+              <strong id="monthlySpendValue">UGX 0</strong>
+              <small>Current month</small>
+            </article>
+
+            <article class="stat-card">
+              <span>Next-month estimate</span>
+              <strong id="nextMonthValue">UGX 0</strong>
+              <small>Projected</small>
+            </article>
+          </div>
+
+          <div class="panel alerts-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Attention required</p>
+                <h3>Fleet alerts</h3>
+              </div>
+              <span class="live-label"><span class="status-dot"></span> Live rules</span>
+            </div>
+            <ul id="alertList" class="alert-list"></ul>
+          </div>
+
+          <div class="charts-grid">
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Fuel consumption over time</h3>
+                <button class="chip">Monthly</button>
+              </div>
+              <div class="chart-wrap"><canvas id="fuelConsumptionChart"></canvas></div>
+            </div>
+
+            <div class="panel chart-panel two-hour-chart-panel">
+              <div class="panel-header">
+                <div>
+                  <h3>Fuel used in the last 2 hours</h3>
+                  <p class="panel-subtitle">Daily hourly tracking from fuel entries</p>
+                </div>
+                <button class="chip">2-hour view</button>
+              </div>
+              <div class="chart-wrap"><canvas id="twoHourFuelChart"></canvas></div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Fuel expenditure</h3>
+                <button class="chip">UGX</button>
+              </div>
+              <div class="chart-wrap"><canvas id="fuelExpenditureChart"></canvas></div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Fuel price trends</h3>
+                <button class="chip">Price</button>
+              </div>
+              <div class="chart-wrap"><canvas id="fuelPriceChart"></canvas></div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Efficiency by vehicle</h3>
+                <button class="chip">km/L</button>
+              </div>
+              <div class="chart-wrap"><canvas id="efficiencyChart"></canvas></div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Distance travelled</h3>
+                <button class="chip">km</button>
+              </div>
+              <div class="chart-wrap"><canvas id="distanceChart"></canvas></div>
+            </div>
+
+            <div class="panel chart-panel">
+              <div class="panel-header">
+                <h3>Monthly spending mix</h3>
+                <button class="chip">Share</button>
+              </div>
+              <div class="chart-wrap"><canvas id="monthlySpendChart"></canvas></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="vehicles" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Fleet</p>
+              <h2>Vehicle management</h2>
+            </div>
+            <button class="btn btn-primary" data-open-modal="vehicleModal">New vehicle</button>
+          </div>
+
+          <div class="toolbar">
+            <input id="vehicleSearch" type="search" placeholder="Search by vehicle, driver or registration" />
+            <select id="vehicleStatusFilter">
+              <option value="All">All statuses</option>
+              <option value="Active">Active</option>
+              <option value="Maintenance">Maintenance</option>
+              <option value="Idle">Idle</option>
+            </select>
+          </div>
+
+          <div class="table-wrap panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Registration</th>
+                  <th>Make / Model</th>
+                  <th>Year</th>
+                  <th>Fuel</th>
+                  <th>Mileage</th>
+                  <th>Driver</th>
+                  <th>Status</th>
+                  <th>Efficiency</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="vehicleTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="fuel-logs" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Operations</p>
+              <h2>Fuel log</h2>
+            </div>
+            <button class="btn btn-primary" data-open-modal="fuelModal">Add fuel entry</button>
+          </div>
+
+          <div class="table-wrap panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Vehicle</th>
+                  <th>Driver</th>
+                  <th>Station</th>
+                  <th>Fuel</th>
+                  <th>Litres</th>
+                  <th>Price/L</th>
+                  <th>Total cost</th>
+                  <th>Odometer</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="fuelLogTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="trips" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Trips</p>
+              <h2>Trip management</h2>
+            </div>
+            <button class="btn btn-primary" data-open-modal="tripModal">Record trip</button>
+          </div>
+
+          <div class="table-wrap panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Vehicle</th>
+                  <th>Driver</th>
+                  <th>Route</th>
+                  <th>Distance</th>
+                  <th>Purpose</th>
+                  <th>Fuel used</th>
+                  <th>Trip cost</th>
+                </tr>
+              </thead>
+              <tbody id="tripTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="drivers" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">People</p>
+              <h2>Driver management</h2>
+            </div>
+            <button class="btn btn-primary" data-open-modal="driverModal">New driver</button>
+          </div>
+
+          <div class="table-wrap panel">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Vehicle</th>
+                  <th>Status</th>
+                  <th>Trips</th>
+                  <th>Fuel used</th>
+                  <th>Fuel cost</th>
+                  <th>Efficiency</th>
+                </tr>
+              </thead>
+              <tbody id="driverTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="intelligence" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">AI</p>
+              <h2>FuelIQ Intelligence</h2>
+            </div>
+          </div>
+
+          <div class="ai-grid">
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Key AI findings</h3>
+              </div>
+              <ul id="aiInsightList" class="insight-list"></ul>
+            </div>
+
+            <div class="panel">
+              <div class="panel-header">
+                <h3>Forecast</h3>
+              </div>
+              <div id="predictionCards" class="prediction-grid"></div>
+            </div>
+          </div>
+
+          <div class="panel assistant-panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Decision support</p>
+                <h3>AI Fuel Assistant</h3>
+              </div>
+              <span id="assistantStatus" class="assistant-status">GPT-5-ready · local fallback</span>
+            </div>
+
+            <div class="quick-questions">
+              <button class="quick-question">Which vehicle is using the most fuel?</button>
+              <button class="quick-question">How much did we spend on fuel this month?</button>
+              <button class="quick-question">Which vehicle is the most efficient?</button>
+              <button class="quick-question">How can I reduce fuel costs?</button>
+            </div>
+
+            <div id="assistantOutput" class="assistant-output">
+              <div class="chat-message bot"><strong>FuelIQ:</strong> Ask about fuel use, vehicle efficiency, costs, or how to reduce waste.</div>
+            </div>
+
+            <form id="assistantForm" class="assistant-form">
+              <input id="assistantInput" type="text" placeholder="Ask FuelIQ a question..." />
+              <button id="assistantSubmit" type="submit" class="btn btn-primary">Ask</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="reports" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Analytics</p>
+              <h2>Reports</h2>
+            </div>
+            <button id="reportDownloadBtn" class="btn btn-primary">Download CSV</button>
+          </div>
+
+          <div class="filters-row panel">
+            <select id="reportVehicleFilter">
+              <option value="All">All vehicles</option>
+            </select>
+            <select id="reportDriverFilter">
+              <option value="All">All drivers</option>
+            </select>
+            <select id="reportFuelTypeFilter">
+              <option value="All">All fuel types</option>
+            </select>
+            <input id="reportStartDate" type="date" />
+            <input id="reportEndDate" type="date" />
+            <button id="reportApplyBtn" class="btn btn-secondary">Apply filters</button>
+          </div>
+
+          <div class="table-wrap panel">
+            <table id="reportTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Vehicle</th>
+                  <th>Driver</th>
+                  <th>Fuel type</th>
+                  <th>Station</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody id="reportRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="budgets" class="page-section">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Planning</p>
+              <h2>Budget management</h2>
+            </div>
+            <button class="btn btn-primary" data-open-modal="budgetModal">Create budget</button>
+          </div>
+
+          <div id="budgetSummary" class="budget-summary panel"></div>
+          <div id="budgetList" class="budget-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="notification" class="notification" role="status" aria-live="polite"></div>
+
+    <div id="signInModal" class="modal" aria-hidden="true">
+      <div class="modal-box sign-in-box">
+        <div class="modal-header">
+          <div>
+            <p class="eyebrow">Secure workspace</p>
+            <h3>Sign in to FuelIQ</h3>
+          </div>
+          <button class="modal-close" type="button" aria-label="Close sign in">×</button>
+        </div>
+        <p class="sign-in-copy">Access fleet tracking, fuel analytics, reports, and intelligent alerts from your dashboard.</p>
+        <form id="signInForm" class="sign-in-form">
+          <label>Email address<input type="email" name="email" placeholder="you@company.com" required /></label>
+          <label>Password<input type="password" name="password" placeholder="Enter your password" minlength="4" required /></label>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="vehicleModal" class="modal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Vehicle details</h3>
+          <button class="modal-close" type="button">×</button>
+        </div>
+        <form id="vehicleForm">
+          <input type="hidden" name="id" />
+          <div class="field-grid">
+            <label>Registration<input name="registration" required /></label>
+            <label>Make<input name="make" required /></label>
+            <label>Model<input name="model" required /></label>
+            <label>Year<input type="number" name="year" required /></label>
+            <label>Fuel type<select name="fuelType" required><option>Diesel</option><option>Petrol</option></select></label>
+            <label>Tank capacity<input type="number" name="tankCapacity" required /></label>
+            <label>Current mileage<input type="number" name="mileage" required /></label>
+            <label>Assigned driver<input name="assignedDriver" required /></label>
+            <label>Status<select name="status"><option>Active</option><option>Maintenance</option><option>Idle</option></select></label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save vehicle</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="fuelModal" class="modal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Fuel entry</h3>
+          <button class="modal-close" type="button">×</button>
+        </div>
+        <form id="fuelForm">
+          <input type="hidden" name="id" />
+          <div class="field-grid">
+            <label>Date<input type="date" name="date" required /></label>
+            <label>Time<input type="time" name="time" required /></label>
+            <label>Vehicle<select name="vehicleId" required></select></label>
+            <label>Driver<select name="driverId" required></select></label>
+            <label>Fuel station<input name="station" required /></label>
+            <label>Fuel type<select name="fuelType" required><option>Diesel</option><option>Petrol</option></select></label>
+            <label>Litres<input type="number" name="litres" step="0.1" required /></label>
+            <label>Price/L<input type="number" name="pricePerLitre" step="0.01" required /></label>
+            <label>Odometer<input type="number" name="odometer" required /></label>
+            <label>Distance travelled<input type="number" name="distance" step="0.1" /></label>
+            <label>Payment method<select name="paymentMethod"><option>Cash</option><option>Card</option><option>Mobile Money</option><option>Bank Transfer</option></select></label>
+            <label class="full-width">Notes<textarea name="notes" rows="3"></textarea></label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save fuel log</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="tripModal" class="modal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Trip record</h3>
+          <button class="modal-close" type="button">×</button>
+        </div>
+        <form id="tripForm">
+          <input type="hidden" name="id" />
+          <div class="field-grid">
+            <label>Vehicle<select name="vehicleId" required></select></label>
+            <label>Driver<select name="driverId" required></select></label>
+            <label>Start location<input name="startLocation" required /></label>
+            <label>Destination<input name="destination" required /></label>
+            <label>Date<input type="date" name="date" required /></label>
+            <label>Distance (km)<input type="number" name="distance" required /></label>
+            <label>Purpose<input name="purpose" required /></label>
+            <label>Fuel consumed (L)<input type="number" name="fuelConsumed" step="0.1" /></label>
+            <label>Trip cost<input type="number" name="tripCost" step="0.01" required /></label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save trip</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="driverModal" class="modal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Driver profile</h3>
+          <button class="modal-close" type="button">×</button>
+        </div>
+        <form id="driverForm">
+          <input type="hidden" name="id" />
+          <div class="field-grid">
+            <label>Name<input name="name" required /></label>
+            <label>Contact<input name="contact" required /></label>
+            <label>Assigned vehicle<select name="assignedVehicle"></select></label>
+            <label>Status<select name="status"><option>Active</option><option>On leave</option><option>Inactive</option></select></label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save driver</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="budgetModal" class="modal" aria-hidden="true">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3>Fuel budget</h3>
+          <button class="modal-close" type="button">×</button>
+        </div>
+        <form id="budgetForm">
+          <input type="hidden" name="id" />
+          <div class="field-grid">
+            <label>Month<input type="month" name="month" required /></label>
+            <label>Amount<input type="number" name="amount" required /></label>
+            <label>Category<input name="category" value="Fuel" /></label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save budget</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
